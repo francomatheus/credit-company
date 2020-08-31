@@ -1,5 +1,7 @@
 package br.com.loan.creditcompany.service.impl;
 
+import br.com.loan.creditcompany.model.DTO.AddressDTO;
+import br.com.loan.creditcompany.model.DTO.RegisterDTO;
 import br.com.loan.creditcompany.model.DTO.UserDTO;
 import br.com.loan.creditcompany.model.DTO.UserRoleDTO;
 import br.com.loan.creditcompany.model.entity.UserEntity;
@@ -35,6 +37,65 @@ public class UserServiceImpl implements UserService {
     public UserDTO getOneUser(Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found user with id: ".concat(id.toString())));
         return converterUserEntityToUserDTO(userEntity);
+    }
+
+    @Override
+    public AddressDTO getAddress(Long id) {
+        Optional<UserEntity> userById = userRepository.findById(id);
+        if (userById.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not found user with id: ".concat(id.toString()));
+        }
+
+        UserEntity userEntity = userById.get();
+        AddressDTO addressDTO = new AddressDTO();
+
+        addressDTO.setId(userEntity.getRegisterEntity().getAddress().getId());
+        addressDTO.setStreet(userEntity.getRegisterEntity().getAddress().getStreet());
+        addressDTO.setNumber(userEntity.getRegisterEntity().getAddress().getNumber());
+        addressDTO.setComplements(userEntity.getRegisterEntity().getAddress().getComplements());
+        addressDTO.setZipCode(userEntity.getRegisterEntity().getAddress().getZipCode());
+        addressDTO.setCity(userEntity.getRegisterEntity().getAddress().getCity());
+        addressDTO.setState(userEntity.getRegisterEntity().getAddress().getState());
+        addressDTO.setCountry(userEntity.getRegisterEntity().getAddress().getCountry());
+
+        return  addressDTO;
+    }
+
+    @Override
+    public RegisterDTO getRegister(Long id) {
+        Optional<UserEntity> userById = userRepository.findById(id);
+        if (userById.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not found id!!");
+        }
+
+        UserEntity userEntity = userById.get();
+        RegisterDTO registerDTO = new RegisterDTO();
+
+        registerDTO.setId(userEntity.getRegisterEntity().getId());
+        registerDTO.setFullname(userEntity.getRegisterEntity().getFullname());
+        registerDTO.setCpf(userEntity.getRegisterEntity().getCpf());
+        registerDTO.setRg(userEntity.getRegisterEntity().getRg());
+        registerDTO.setOccupation(userEntity.getRegisterEntity().getOccupation());
+        registerDTO.setTelephone(userEntity.getRegisterEntity().getTelephone());
+        registerDTO.setCellphone(userEntity.getRegisterEntity().getCellphone());
+        registerDTO.setCivilStatus(userEntity.getRegisterEntity().getCivilStatus());
+        registerDTO.setAge(userEntity.getRegisterEntity().getAge());
+        registerDTO.setEducationLevel(userEntity.getRegisterEntity().getEducationLevel());
+        registerDTO.setSalary(userEntity.getRegisterEntity().getSalary());
+        registerDTO.setPartner(userEntity.getRegisterEntity().getPartner());
+
+        AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setId(userEntity.getRegisterEntity().getAddress().getId());
+        addressDTO.setStreet(userEntity.getRegisterEntity().getAddress().getStreet());
+        addressDTO.setNumber(userEntity.getRegisterEntity().getAddress().getNumber());
+        addressDTO.setComplements(userEntity.getRegisterEntity().getAddress().getComplements());
+        addressDTO.setZipCode(userEntity.getRegisterEntity().getAddress().getZipCode());
+        addressDTO.setCity(userEntity.getRegisterEntity().getAddress().getCity());
+        addressDTO.setState(userEntity.getRegisterEntity().getAddress().getState());
+        addressDTO.setCountry(userEntity.getRegisterEntity().getAddress().getCountry());
+
+        registerDTO.setAddress(addressDTO);
+        return registerDTO;
     }
 
     @Override

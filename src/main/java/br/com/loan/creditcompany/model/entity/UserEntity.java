@@ -30,6 +30,9 @@ public class UserEntity implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @OneToOne
+    private RegisterEntity registerEntity;
+
     @ManyToMany
     private List<UserRoleEntity> roles;
 
