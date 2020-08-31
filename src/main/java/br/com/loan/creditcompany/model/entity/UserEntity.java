@@ -22,14 +22,13 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Column(unique = true)
     private String username;
-    @NotNull
-    private String fullname;
     @NotNull
     private String password;
     @NotNull
+    @Column(unique = true)
     private String email;
-    private String cellphone;
 
     @ManyToMany
     private List<UserRoleEntity> roles;
