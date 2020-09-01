@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-security-oauth>2.5.0.RELEASE</spring-security-oauth>
+		<swagger.version>2.9.2</swagger.version>
 	</properties>
 
 	<dependencies>
@@ -49,6 +50,18 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.security.oauth.boot</groupId>

@@ -3,6 +3,7 @@ package br.com.loan.creditcompany.controller;
 import br.com.loan.creditcompany.model.DTO.UserDTO;
 import br.com.loan.creditcompany.model.form.UserForm;
 import br.com.loan.creditcompany.service.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
+@Api(value = "User")
 @RequestMapping("/v0/user")
 public class UserController {
 

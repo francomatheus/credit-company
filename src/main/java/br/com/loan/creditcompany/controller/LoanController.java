@@ -2,6 +2,7 @@ package br.com.loan.creditcompany.controller;
 
 import br.com.loan.creditcompany.model.DTO.LoanProvidedDTO;
 import br.com.loan.creditcompany.service.LoanProvidedService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Api(value = "Loan")
 @RequestMapping("/v0/loan")
 public class LoanController {
 

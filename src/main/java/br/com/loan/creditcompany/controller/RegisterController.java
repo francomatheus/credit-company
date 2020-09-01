@@ -3,6 +3,7 @@ package br.com.loan.creditcompany.controller;
 import br.com.loan.creditcompany.model.DTO.RegisterDTO;
 import br.com.loan.creditcompany.model.form.RegisterForm;
 import br.com.loan.creditcompany.service.RegisterService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
+@Api(value = "Register")
 @RequestMapping("/v0/register")
 public class RegisterController {
 

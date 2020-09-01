@@ -3,6 +3,7 @@ package br.com.loan.creditcompany.controller;
 import br.com.loan.creditcompany.model.DTO.AddressDTO;
 import br.com.loan.creditcompany.model.form.AddressForm;
 import br.com.loan.creditcompany.service.AddressService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v0/address")
+@Api(value = "Address")
 public class AddressController {
 
     @Autowired
