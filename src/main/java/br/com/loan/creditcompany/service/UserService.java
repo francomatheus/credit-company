@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserEntity> getAllUser();
+    List<UserDTO> getAllUser();
 
     UserDTO getOneUser(Long id);
 
@@ -23,5 +23,11 @@ public interface UserService {
     UserDTO updateUser(Long id, UserForm userForm);
 
     void deleteUser(Long id);
+
+    UserForm converterUserDTOToUserForm(UserDTO userDTO);
+
+    UserEntity getOneUserAndRetornUserEntity(Long id);
+
+    UserDTO converterUserEntityToUserDTO(UserEntity userEntity);
 
 }

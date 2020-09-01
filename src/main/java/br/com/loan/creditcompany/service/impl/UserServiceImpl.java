@@ -7,6 +7,7 @@ import br.com.loan.creditcompany.model.DTO.UserRoleDTO;
 import br.com.loan.creditcompany.model.entity.UserEntity;
 import br.com.loan.creditcompany.model.entity.UserRoleEntity;
 import br.com.loan.creditcompany.model.form.UserForm;
+import br.com.loan.creditcompany.model.form.UserRoleForm;
 import br.com.loan.creditcompany.repository.UserRepository;
 import br.com.loan.creditcompany.repository.UserRoleRepository;
 import br.com.loan.creditcompany.service.UserService;
@@ -29,8 +30,11 @@ public class UserServiceImpl implements UserService {
     private UserRoleRepository userRoleRepository;
 
     @Override
-    public List<UserEntity> getAllUser() {
-        return Optional.ofNullable(userRepository.findAll()).orElseGet(() -> new ArrayList<>());
+    public List<UserDTO> getAllUser() {
+        List<UserEntity> userEntities = Optional.ofNullable(userRepository.findAll()).orElseGet(() -> new ArrayList<>());
+
+        return converterListOfUserEntityToListOfUserDTO(userEntities);
+
     }
 
     @Override
@@ -104,6 +108,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userSaved = userRepository.save(userEntity);
         return converterUserEntityToUserDTO(userSaved);
     }
+
     @Override
     public UserDTO updateUser(Long id, UserForm userForm) {
 
@@ -113,12 +118,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setRoles(userEntity.getRoles());
         userEntity.setPassword(userEntity.getPassword());
         userEntity.setEmail(userForm.getEmail());
+        userEntity.setRegisterEntity(userForm.getRegisterEntity());
 
         UserEntity UserUpdated = userRepository.save(userEntity);
 
         return converterUserEntityToUserDTO(UserUpdated);
     }
-
     @Override
     public void deleteUser(Long id) {
         UserEntity userEntity = Optional.ofNullable(userRepository.findById(id)).orElseThrow(() ->
@@ -127,7 +132,85 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userEntity);
     }
 
-    private UserDTO converterUserEntityToUserDTO(UserEntity userEntity) {
+    @Override
+    public UserForm converterUserDTOToUserForm(UserDTO userDTO){
+
+        UserForm userForm = new UserForm();
+
+        userForm.setEmail(userDTO.getEmail());
+        userForm.setUsername(userDTO.getUsername());
+        userForm.setRegisterEntity(userDTO.getRegisterDTO());
+
+        List<UserRoleForm> collect = userDTO.getRoles().stream()
+                .map(userRoleDTO -> {
+                    UserRoleForm userRoleForm = new UserRoleForm();
+                    userRoleForm.setRole(userRoleDTO.getRole());
+                    return userRoleForm;
+
+                }).collect(Collectors.toList());
+
+        userForm.setRoles(collect);
+
+        return userForm;
+
+    }
+
+    @Override
+    public UserEntity getOneUserAndRetornUserEntity(Long id) {
+        Optional<UserEntity> byId = userRepository.findById(id);
+        if (byId.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Not found id!!");
+        }
+
+        return byId.get();
+    }
+
+/*    @Override
+    public UserEntity converterUserDTOToUserEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
+
+        userEntity.setEmail(userDTO.getEmail());
+        userEntity.setUsername(userDTO.getUsername());
+        userEntity.setRegisterEntity(userDTO.getRegisterDTO());
+
+        List<UserRoleEntity> collect = userDTO.getRoles().stream()
+                .map(userRoleDTO -> {
+                    UserRoleEntity roleEntity = new UserRoleEntity();
+                    roleEntity.setId(userRoleDTO.getId());
+                    roleEntity.setRole(userRoleDTO.getRole());
+                    return roleEntity;
+
+                }).collect(Collectors.toList());
+
+        userEntity.setRoles(collect);
+
+        return userEntity;
+    }*/
+
+    private List<UserDTO> converterListOfUserEntityToListOfUserDTO(List<UserEntity> userEntities) {
+        return userEntities.stream()
+                .map(userEntity -> {
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setId(userEntity.getId());
+                    userDTO.setEmail(userEntity.getEmail());
+                    userDTO.setUsername(userEntity.getUsername());
+                    userDTO.setRegisterDTO(userEntity.getRegisterEntity());
+
+                    List<UserRoleDTO> collect = userEntity.getRoles().stream()
+                            .map(userRoleEntity -> {
+                                UserRoleDTO userRoleDTO = new UserRoleDTO();
+                                userRoleDTO.setId(userRoleEntity.getId());
+                                userRoleDTO.setRole(userRoleEntity.getRole());
+                                return userRoleDTO;
+                            }).collect(Collectors.toList());
+
+                    userDTO.setRoles(collect);
+                    return userDTO;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO converterUserEntityToUserDTO(UserEntity userEntity) {
         UserDTO userDTO = new UserDTO();
 
         List<UserRoleDTO> userRoles = userEntity.getRoles().stream()
@@ -151,7 +234,7 @@ public class UserServiceImpl implements UserService {
         List<UserRoleEntity> userRoleEntities = new ArrayList<>();
 
         userEntity.setEmail(userForm.getEmail());
-        userEntity.setPassword(userForm.getPassword());
+        userEntity.setPassword(userEntity.getPassword());
         userEntity.setUsername(userForm.getUsername());
 
 
@@ -172,6 +255,4 @@ public class UserServiceImpl implements UserService {
 
         return userEntity;
     }
-
-
 }

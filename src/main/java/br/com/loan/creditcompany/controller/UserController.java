@@ -1,7 +1,6 @@
 package br.com.loan.creditcompany.controller;
 
 import br.com.loan.creditcompany.model.DTO.UserDTO;
-import br.com.loan.creditcompany.model.entity.UserEntity;
 import br.com.loan.creditcompany.model.form.UserForm;
 import br.com.loan.creditcompany.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    private ResponseEntity<?> getAllUser(){
-        List<UserEntity> allUser = userService.getAllUser();
+    private ResponseEntity<List<UserDTO>> getAllUser(){
+        List<UserDTO> allUser = userService.getAllUser();
         return ResponseEntity.ok(allUser);
     }
 

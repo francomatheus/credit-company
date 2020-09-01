@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.OneToOne;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -16,12 +17,12 @@ public class RegisterDTO {
     private String cpf;
     private String rg;
     private String occupation;
-    private Integer telephone;
-    private Integer cellphone;
+    private String telephone;
+    private String cellphone;
     private String civilStatus;
     private Integer age;
     private String educationLevel;
-    private Double salary;
+    private BigDecimal salary;
     private String partner;
     @OneToOne
     private AddressDTO address;

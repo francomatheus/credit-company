@@ -36,9 +36,9 @@ public class RegisterController {
         return ResponseEntity.ok(registerByUserId);
     }
 
-    @PostMapping
-    public ResponseEntity<RegisterDTO> createNewRegister(@RequestBody RegisterForm registerForm) throws URISyntaxException {
-        RegisterDTO registerDTO = registerService.saveRegister(registerForm);
+    @PostMapping("/user/{id}")
+    public ResponseEntity<RegisterDTO> createNewRegister(@PathVariable Long id, @RequestBody RegisterForm registerForm) throws URISyntaxException {
+        RegisterDTO registerDTO = registerService.saveRegister(id,registerForm);
         return ResponseEntity.created(new URI("/v0/register/".concat(registerDTO.getId().toString()))).body(registerDTO);
     }
 

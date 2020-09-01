@@ -2,10 +2,14 @@ package br.com.loan.creditcompany.service.impl;
 
 import br.com.loan.creditcompany.model.DTO.AddressDTO;
 import br.com.loan.creditcompany.model.DTO.RegisterDTO;
+import br.com.loan.creditcompany.model.DTO.UserDTO;
 import br.com.loan.creditcompany.model.entity.AddressEntity;
 import br.com.loan.creditcompany.model.entity.RegisterEntity;
+import br.com.loan.creditcompany.model.entity.UserEntity;
 import br.com.loan.creditcompany.model.form.RegisterForm;
+import br.com.loan.creditcompany.model.form.UserForm;
 import br.com.loan.creditcompany.repository.RegisterRepository;
+import br.com.loan.creditcompany.service.AddressService;
 import br.com.loan.creditcompany.service.RegisterService;
 import br.com.loan.creditcompany.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
 
     @Override
     public List<RegisterDTO> getAllRegisters() {
@@ -51,10 +58,22 @@ public class RegisterServiceImpl implements RegisterService {
 
 
     @Override
-    public RegisterDTO saveRegister(RegisterForm registerForm) {
-        RegisterEntity registerEntity = converterRegisterFormToRegisterEntity(registerForm);
-        RegisterEntity save = registerRepository.save(registerEntity);
-        return converterRegisterEntityTORegisterDTO(save);
+    public RegisterDTO saveRegister(Long userId, RegisterForm registerForm) {
+        AddressDTO addressDTO = saveAddress(registerForm);
+        RegisterEntity registerEntity = converterRegisterFormToRegisterEntity(registerForm, addressDTO);
+        RegisterEntity registerSaved = registerRepository.save(registerEntity);
+
+        updateUserWithRegister(userId, registerSaved);
+        return converterRegisterEntityTORegisterDTO(registerSaved);
+    }
+
+    private void updateUserWithRegister(Long userId, RegisterEntity registerDTO) {
+        UserDTO oneUser = userService.getOneUser(userId);
+
+        oneUser.setRegisterDTO(registerDTO);
+        UserForm userForm = userService.converterUserDTOToUserForm(oneUser);
+        userService.updateUser(userId, userForm);
+
     }
 
 
@@ -158,7 +177,7 @@ public class RegisterServiceImpl implements RegisterService {
         return registerDTO;
     }
 
-    private RegisterEntity converterRegisterFormToRegisterEntity(RegisterForm registerForm) {
+    private RegisterEntity converterRegisterFormToRegisterEntity(RegisterForm registerForm, AddressDTO addressDTO) {
         RegisterEntity registerEntity = new RegisterEntity();
         //registerEntity.setId(registerForm.getId());
         registerEntity.setFullname(registerForm.getFullname());
@@ -174,17 +193,23 @@ public class RegisterServiceImpl implements RegisterService {
         registerEntity.setPartner(registerForm.getPartner());
 
         AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setId(registerForm.getAddress().getId());
-        addressEntity.setStreet(registerForm.getAddress().getStreet());
-        addressEntity.setNumber(registerForm.getAddress().getNumber());
-        addressEntity.setComplements(registerForm.getAddress().getComplements());
-        addressEntity.setZipCode(registerForm.getAddress().getZipCode());
-        addressEntity.setCity(registerForm.getAddress().getCity());
-        addressEntity.setState(registerForm.getAddress().getState());
-        addressEntity.setCountry(registerForm.getAddress().getCountry());
+        addressEntity.setId(addressDTO.getId());
+        addressEntity.setStreet(addressDTO.getStreet());
+        addressEntity.setNumber(addressDTO.getNumber());
+        addressEntity.setComplements(addressDTO.getComplements());
+        addressEntity.setZipCode(addressDTO.getZipCode());
+        addressEntity.setCity(addressDTO.getCity());
+        addressEntity.setState(addressDTO.getState());
+        addressEntity.setCountry(addressDTO.getCountry());
 
         registerEntity.setAddress(addressEntity);
         return registerEntity;
 
     }
+
+    private AddressDTO saveAddress(RegisterForm registerForm) {
+        AddressDTO addressDTO = addressService.saveAddress(registerForm.getAddress());
+        return addressDTO;
+    }
+
 }

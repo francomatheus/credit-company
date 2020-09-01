@@ -13,7 +13,7 @@ public interface RegisterService {
 
     RegisterDTO getRegisterByUserId(Long id);
 
-    RegisterDTO saveRegister(RegisterForm registerForm);
+    RegisterDTO saveRegister(Long userId, RegisterForm registerForm);
 
     RegisterDTO updateRegister(Long registerId , RegisterForm registerForm);
 

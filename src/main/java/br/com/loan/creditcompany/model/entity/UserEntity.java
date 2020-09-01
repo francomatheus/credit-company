@@ -33,6 +33,9 @@ public class UserEntity implements UserDetails {
     @OneToOne
     private RegisterEntity registerEntity;
 
+/*    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RequestCreditEntity> requestCreditEntity;*/
+
     @ManyToMany
     private List<UserRoleEntity> roles;
 
