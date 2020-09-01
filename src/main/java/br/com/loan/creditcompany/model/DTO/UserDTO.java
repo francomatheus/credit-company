@@ -1,7 +1,6 @@
 package br.com.loan.creditcompany.model.DTO;
 
 import br.com.loan.creditcompany.model.entity.RegisterEntity;
-import br.com.loan.creditcompany.model.entity.UserRoleEntity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +14,9 @@ import java.util.List;
 public class UserDTO {
 
     private Long id;
-    @NotNull
+
     private String username;
-    @NotNull
+
     private String email;
 
     private RegisterEntity registerDTO;

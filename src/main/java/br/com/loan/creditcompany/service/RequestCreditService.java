@@ -1,7 +1,6 @@
 package br.com.loan.creditcompany.service;
 
 import br.com.loan.creditcompany.model.DTO.RequestCreditDTO;
-import br.com.loan.creditcompany.model.DTO.ResponseAboutRequestCreditDTO;
 import br.com.loan.creditcompany.model.form.RequestCreditForm;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface RequestCreditService {
 
     RequestCreditDTO getRequestCreditByIdAndUserId(Long id, Long userId);
 
-    ResponseAboutRequestCreditDTO createNewRequestCredit(Long userId,RequestCreditForm requestCreditForm) throws InterruptedException;
+    void createNewRequestCredit(Long userId,RequestCreditForm requestCreditForm) throws InterruptedException;
 
     RequestCreditDTO updateRequestCredit(Long id, RequestCreditForm requestCreditForm);
 

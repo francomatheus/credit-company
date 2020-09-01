@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserRoleDTO {
 
     private Long id;
+
     private String role;
 }

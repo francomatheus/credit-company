@@ -1,7 +1,6 @@
 package br.com.loan.creditcompany.service.impl;
 
 import br.com.loan.creditcompany.model.DTO.RequestCreditDTO;
-import br.com.loan.creditcompany.model.DTO.ResponseAboutRequestCreditDTO;
 import br.com.loan.creditcompany.model.domain.RequestCreditDomain;
 import br.com.loan.creditcompany.model.entity.RequestCreditEntity;
 import br.com.loan.creditcompany.model.entity.UserEntity;
@@ -80,7 +79,7 @@ public class RequestCreditServiceImpl implements RequestCreditService {
 
     @Override
     @Async
-    public ResponseAboutRequestCreditDTO createNewRequestCredit(Long userId , RequestCreditForm requestCreditForm) throws InterruptedException {
+    public void createNewRequestCredit(Long userId , RequestCreditForm requestCreditForm) throws InterruptedException {
 
         CompletableFuture.runAsync(() -> {
             RequestCreditEntity requestCreditEntity = converterRequestCredityFormToRequestCreditEntity(requestCreditForm);
@@ -94,11 +93,6 @@ public class RequestCreditServiceImpl implements RequestCreditService {
             RequestCreditDomain requestCreditDomain = converterRequestCreditEntityToRequestCreditDomain(requestCreditSaved);
             stageOfCreditAnalysisService.receivedRequestCredit(requestCreditDomain);
         });
-
-        ResponseAboutRequestCreditDTO responseAboutRequestCreditDTO = new ResponseAboutRequestCreditDTO();
-        responseAboutRequestCreditDTO.setResponse("Your order is being processed !!!");
-
-        return responseAboutRequestCreditDTO;
 
     }
 
@@ -165,6 +159,7 @@ public class RequestCreditServiceImpl implements RequestCreditService {
 
         requestCreditDTO.setId(requestCreditEntity.getId());
         requestCreditDTO.setPrice(requestCreditEntity.getPrice());
+        requestCreditDTO.setError(requestCreditEntity.getError());
         requestCreditDTO.setUserDTO(userService.converterUserEntityToUserDTO(requestCreditEntity.getUserEntity()));
         requestCreditDTO.setDateOfAvailable(requestCreditEntity.getDateOfAvailable());
         requestCreditDTO.setDateOfRequest(requestCreditEntity.getDateOfRequest());
@@ -181,6 +176,7 @@ public class RequestCreditServiceImpl implements RequestCreditService {
 
                     requestCreditDTO.setId(requestCreditEntity.getId());
                     requestCreditDTO.setPrice(requestCreditEntity.getPrice());
+                    requestCreditDTO.setError(requestCreditEntity.getError());
                     requestCreditDTO.setUserDTO(userService.converterUserEntityToUserDTO(requestCreditEntity.getUserEntity()));
                     requestCreditDTO.setDateOfAvailable(requestCreditEntity.getDateOfAvailable());
                     requestCreditDTO.setDateOfRequest(requestCreditEntity.getDateOfRequest());

@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 public class LoanProvidedDTO {
 
     private Long id;
+
     private LocalDateTime dayOfLoanProvided;
+
     private BigDecimal price;
 
     private UserDTO userDTO;

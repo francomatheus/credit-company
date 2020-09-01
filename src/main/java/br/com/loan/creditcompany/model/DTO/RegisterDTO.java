@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
 @Data
@@ -24,7 +23,6 @@ public class RegisterDTO {
     private String educationLevel;
     private BigDecimal salary;
     private String partner;
-    @OneToOne
     private AddressDTO address;
 
 }

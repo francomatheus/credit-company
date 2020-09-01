@@ -10,16 +10,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddressDTO {
     private Long id;
-    @NotNull
+
     private String street;
-    @NotNull
+
     private String number;
+
     private String complements;
+
     private String zipCode;
-    @NotNull
+
     private String city;
-    @NotNull
+
     private String state;
-    @NotNull
+
     private String country;
 }

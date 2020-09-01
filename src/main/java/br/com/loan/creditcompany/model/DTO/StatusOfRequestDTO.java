@@ -6,13 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestCreditDTO {
+public class StatusOfRequestDTO {
 
     private Long id;
 
@@ -23,9 +22,5 @@ public class RequestCreditDTO {
     private StatusLoanEnum Status;
 
     private ErrorRequestEnum error;
-
-    private BigDecimal price;
-
-    private UserDTO userDTO;
 
 }

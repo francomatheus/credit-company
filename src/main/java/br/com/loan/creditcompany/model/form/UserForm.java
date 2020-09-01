@@ -1,6 +1,5 @@
 package br.com.loan.creditcompany.model.form;
 
-import br.com.loan.creditcompany.model.DTO.RegisterDTO;
 import br.com.loan.creditcompany.model.entity.RegisterEntity;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;

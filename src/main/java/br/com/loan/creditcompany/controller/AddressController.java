@@ -13,8 +13,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v0/address")
 @Api(value = "Address")
+@RequestMapping("/v0/address")
 public class AddressController {
 
     @Autowired
